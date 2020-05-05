@@ -6,13 +6,13 @@ describe('Account Mongo Repository', () => {
     await MongoHelper.connect(process.env.MONGO_URL)
   })
 
+  afterAll(async () => {
+    await MongoHelper.disconnect()
+  })
+
   beforeEach(async () => {
     const accountCollection = await MongoHelper.getCollection('accounts')
     await accountCollection.deleteMany({})
-  })
-
-  afterAll(async () => {
-    await MongoHelper.disconnect()
   })
 
   const makeSut = (): AccountMongoRepository => {
@@ -20,7 +20,7 @@ describe('Account Mongo Repository', () => {
     return sut
   }
 
-  test('Should return an account on succcess', async () => {
+  test('Should return an account on success', async () => {
     const sut = makeSut()
     const account = await sut.add({
       name: 'any_name',
